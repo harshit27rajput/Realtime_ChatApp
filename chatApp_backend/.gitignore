@@ -1,0 +1,47 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Laravel environment
+.env
+.env.*
+.env.backup
+.env.local
+auth.json
+
+# Laravel system directories
+/vendor/
+/node_modules/
+/public/build/
+/public/hot/
+/public/storage/
+/storage/*.key
+/storage/pail
+/bootstrap/cache/
+/storage/framework/
+/storage/logs/
+/storage/app/public
+
+# PHPUnit / testing
+.phpunit.result.cache
+/.phpunit.cache
+
+# Logs
+*.log
+npm-debug.log
+yarn-error.log
+
+# IDE / editor
+/.idea/
+/.vscode/
+/.fleet/
+/.zed/
+/.nova/
+.phpactor.json
+
+# Docker (if used)
+.docker/
+
+# Homestead (optional)
+Homestead.json
+Homestead.yaml
