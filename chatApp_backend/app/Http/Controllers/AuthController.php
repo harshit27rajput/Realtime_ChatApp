@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -33,30 +34,25 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+   public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
 
-        $user = User::where('email', $request->email)->first();
-
-        if(! $user || ! Hash::check($request->password, $user->password))
-        {
-            throw ValidationException::withMessages([
-                'email' => ['The Provided credentials are incorrect'],
-            ]);
-        }
-
-        $user->tokens()->delete();
-
-        $token = $user->createToken('api-token')->plainTextToken;
-
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
+
+    $user = Auth::user();
+
+    $token = $user->createToken('chatapp-token')->plainTextToken;
+
+    return response()->json([
+        'token' => $token,
+        'user' => $user,
+    ]);
 }
 
+}
